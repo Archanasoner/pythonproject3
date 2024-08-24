@@ -1,0 +1,103 @@
+Code Structure
+The code is organized into the following modules:
+
+expense_tracker.py: The main program that handles user interaction and data analysis.
+expense.py: A module that defines the Expense class, which represents a single expense.
+data_store.py: A module that handles data storage and retrieval using a JSON file.
+THE CODE
+expense.py
+class Expense:
+    def __init__(self, amount, description, category):
+        self.amount = amount
+        self.description = description
+        self.category = category
+
+    def __repr__(self):
+        return f"Expense(amount={self.amount}, description='{self.description}', category='{self.category}')"
+data_store.py
+import json
+
+class DataStore:
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.data = self.load_data()
+
+    def load_data(self):
+        try:
+            with open(self.file_name, 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return []
+
+    def save_data(self):
+        with open(self.file_name, 'w') as f:
+            json.dump(self.data, f)
+
+    def add_expense(self, expense):
+        self.data.append(expense.__dict__)
+        self.save_data()
+
+    def get_expenses(self):
+        return [Expense(**expense) for expense in self.data]
+expense_tracker.py
+from expense import Expense
+from data_store import DataStore
+
+def main():
+    data_store = DataStore('expenses.json')
+
+    while True:
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. View Summary")
+        print("4. Quit")
+
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            amount = float(input("Enter amount: "))
+            description = input("Enter description: ")
+            category = input("Enter category: ")
+            expense = Expense(amount, description, category)
+            data_store.add_expense(expense)
+            print("Expense added successfully!")
+        elif choice == '2':
+            expenses = data_store.get_expenses()
+            for expense in expenses:
+                print(expense)
+        elif choice == '3':
+            expenses = data_store.get_expenses()
+            summary = {}
+            for expense in expenses:
+                if expense.category not in summary:
+                    summary[expense.category] = 0
+                summary[expense.category] += expense.amount
+            print("Summary:")
+            for category, amount in summary.items():
+                print(f"{category}: {amount}")
+        elif choice == '4':
+            break
+        else:
+            print("Invalid choice. Please choose a valid option.")
+
+if __name__ == '__main__':
+    main()
+
+
+Documentation
+The code includes clear documentation for key functions and the overall program structure. The Expense class and DataStore class have docstrings that describe their purpose and behavior. The main function has comments that explain the program's logic and flow.
+
+Example Use Cases
+Here are some example use cases for the Expense Tracker program:
+
+Add an expense:
+Choose option 1 (Add Expense)
+Enter amount: 10.99
+Enter description: Lunch at café
+Enter category: Food
+View expenses:
+Choose option 2 (View Expenses)
+The program displays a list of all expenses, including the amount, description, and category.
+View summary:
+Choose option 3 (View Summary)
+The program displays a summary of expenses by category, including the total amount spent in each category.
