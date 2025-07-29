@@ -1,10 +1,3 @@
-Code Structure
-The code is organized into the following modules:
-
-expense_tracker.py: The main program that handles user interaction and data analysis.
-expense.py: A module that defines the Expense class, which represents a single expense.
-data_store.py: A module that handles data storage and retrieval using a JSON file.
-THE CODE
 expense.py
 class Expense:
     def __init__(self, amount, description, category):
@@ -83,21 +76,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-Documentation
-The code includes clear documentation for key functions and the overall program structure. The Expense class and DataStore class have docstrings that describe their purpose and behavior. The main function has comments that explain the program's logic and flow.
-
-Example Use Cases
-Here are some example use cases for the Expense Tracker program:
-
-Add an expense:
-Choose option 1 (Add Expense)
-Enter amount: 10.99
-Enter description: Lunch at café
-Enter category: Food
-View expenses:
-Choose option 2 (View Expenses)
-The program displays a list of all expenses, including the amount, description, and category.
-View summary:
-Choose option 3 (View Summary)
-The program displays a summary of expenses by category, including the total amount spent in each category.
